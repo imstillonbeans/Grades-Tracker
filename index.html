@@ -6,162 +6,219 @@
 <title>SchoolTracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#1a1814;--ink3:#7a7570;--paper:#f7f4ef;--paper2:#edeae3;--paper3:#e2ddd5;
-  --accent:#1a6b5a;--red:#c0392b;--red-bg:#fdf0ee;--amber:#b8730a;--amber-bg:#fef8ec;
-  --blue:#1e5f8f;--blue-bg:#eef4fb;--green:#1a6b5a;--green-bg:#e8f4f0;--border:#d4cfc6;
-  --mono:'DM Mono',monospace;--serif:'Playfair Display',serif;--sans:'DM Sans',sans-serif;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1814;
+  --ink3: #7a7570;
+  --paper: #f7f4ef;
+  --paper2: #edeae3;
+  --paper3: #e2ddd5;
+  --accent: #1a6b5a;
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+  --amber: #b8730a;
+  --amber-bg: #fef8ec;
+  --blue: #1e5f8f;
+  --blue-bg: #eef4fb;
+  --green: #1a6b5a;
+  --green-bg: #e8f4f0;
+  --border: #d4cfc6;
+  --mono: 'DM Mono', monospace;
+  --serif: 'Playfair Display', serif;
+  --sans: 'DM Sans', sans-serif;
 }
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;min-height:100vh}
-#app{max-width:520px;margin:0 auto;padding:18px 16px 86px}
 
-/* Header */
-.hdr{margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
-.eyebrow{font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px;margin-bottom:3px}
-h1{font-family:var(--serif);font-size:21px;font-weight:900;letter-spacing:-.5px}
-h2{font-size:16px;font-weight:500}
-.hdr-sub{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
 
-/* Tab bar */
-.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);z-index:200}
-.tabbar-inner{max-width:520px;margin:0 auto;display:flex}
-.tbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;color:#6b6560;font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;background:none;transition:color .15s}
-.tbtn.act{color:#f7f4ef}
-.tbtn svg{width:15px;height:15px;stroke-width:1.5;fill:none;stroke:currentColor}
+/* ── Layout ──────────────────────────────── */
+#app { max-width: 520px; margin: 0 auto; padding: 18px 16px 86px; }
 
-/* Section header */
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-lbl{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:1px}
-.add-btn{display:flex;align-items:center;gap:5px;background:var(--ink);color:var(--paper);padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.add-btn:hover{opacity:.82}
-.add-btn svg{width:12px;height:12px;stroke-width:2.5;fill:none;stroke:currentColor}
+/* ── Header ──────────────────────────────── */
+.hdr { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: var(--mono); font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: .1em; display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+h1 { font-family: var(--serif); font-size: 21px; font-weight: 900; letter-spacing: -.5px; }
+h2 { font-size: 16px; font-weight: 500; }
+.hdr-sub { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
 
-/* Form */
-.form{background:var(--paper2);border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:10px;display:flex;flex-direction:column;gap:9px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-input,select{background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--ink);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
-.form input,.form select,.g2 input,.g2 select,.g3 input,.g3 select,[style*="width:100%"]{width:100%}
-.gsel{width:auto!important;border:none!important;background:transparent;padding:3px 6px}
-input:focus,select:focus{border-color:var(--accent)}
-input::placeholder{color:var(--ink3)}
-.save-btn{background:var(--accent);color:#fff;padding:8px;border-radius:6px;font-size:13px;font-weight:500;width:100%;border:none;cursor:pointer}
-.cancel-lnk{text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink3);cursor:pointer}
-.cancel-lnk:hover{color:var(--ink)}
-.flbl{font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+/* ── Tab bar ─────────────────────────────── */
+.tabbar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); z-index: 200; }
+.tabbar-inner { max-width: 520px; margin: 0 auto; display: flex; }
+.tbtn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 9px 4px; color: #6b6560; font-family: var(--mono); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; border: none; background: none; transition: color .15s; }
+.tbtn.act { color: #f7f4ef; }
+.tbtn svg { width: 15px; height: 15px; stroke-width: 1.5; fill: none; stroke: currentColor; }
 
-/* Card — core layout fix */
-.card{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:9px;margin-bottom:6px;transition:border-color .15s;overflow:hidden;min-width:0}
-.card:hover{border-color:var(--ink3)}
-.cbody{flex:1;min-width:0;overflow:hidden}
-.ctitle{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ctitle.done{text-decoration:line-through;color:var(--ink3)}
-.cmeta{font-family:var(--mono);font-size:10px;color:var(--ink3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+/* ── Section header ──────────────────────── */
+.sec-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sec-lbl { font-family: var(--mono); font-size: 11px; color: var(--ink3); margin-top: 1px; }
 
-/* Delete button */
-.delbtn{color:var(--ink3);background:none;border:none;cursor:pointer;display:flex;padding:2px;transition:color .15s;flex-shrink:0}
-.delbtn:hover{color:var(--red)}
-.delbtn svg{width:13px;height:13px;stroke-width:1.5;fill:none;stroke:currentColor}
+/* ── Add button ──────────────────────────── */
+.add-btn { display: flex; align-items: center; gap: 5px; background: var(--ink); color: var(--paper); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-family: var(--sans); font-weight: 500; border: none; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.add-btn:hover { opacity: .82; }
+.add-btn svg { width: 12px; height: 12px; stroke-width: 2.5; fill: none; stroke: currentColor; flex-shrink: 0; }
 
-/* Status toggle */
-.sbtn{flex-shrink:0;width:17px;height:17px;border-radius:50%;border:1.5px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.sbtn.in-progress{border-color:var(--blue);background:var(--blue-bg)}
-.sbtn.completed{border-color:var(--green);background:var(--green)}
-.sbtn.completed::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;display:block}
+/* ── Form ────────────────────────────────── */
+.form { background: var(--paper2); border: 1px solid var(--border); border-radius: 10px; padding: 13px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 9px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
-/* Pills */
-.pill{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;flex-shrink:0;white-space:nowrap}
-.p-low{background:var(--green-bg);color:var(--green)}
-.p-med{background:var(--amber-bg);color:var(--amber)}
-.p-high{background:var(--red-bg);color:var(--red)}
-.p-overdue{background:var(--red);color:#fff}
-.p-today{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}
-.p-soon{background:var(--amber-bg);color:var(--amber)}
-.p-week{background:var(--blue-bg);color:var(--blue)}
-.p-ok{background:var(--paper2);color:var(--ink3)}
+/* Form inputs — full width, bordered */
+.form input, .form select, .g2 input, .g2 select, .g3 input, .g3 select {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  color: var(--ink);
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .15s;
+  appearance: auto;
+}
+.form input:focus, .form select:focus, .g2 input:focus, .g2 select:focus, .g3 input:focus, .g3 select:focus { border-color: var(--accent); }
+.form input::placeholder { color: var(--ink3); }
 
-/* Priority selector */
-.psel{display:flex;gap:5px}
-.popt{padding:3px 9px;border-radius:3px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;border:1px solid var(--border);color:var(--ink3);cursor:pointer;background:none;transition:all .15s}
-.popt.sl{background:var(--green-bg);color:var(--green);border-color:var(--green)}
-.popt.sm{background:var(--amber-bg);color:var(--amber);border-color:var(--amber)}
-.popt.sh{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.save-btn { background: var(--accent); color: #fff; padding: 8px; border-radius: 6px; font-size: 13px; font-family: var(--sans); font-weight: 500; width: 100%; border: none; cursor: pointer; }
+.cancel-lnk { text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink3); cursor: pointer; }
+.cancel-lnk:hover { color: var(--ink); }
+.flbl { font-family: var(--mono); font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
 
-/* Color dot */
-.dot{border-radius:50%;flex-shrink:0;display:inline-block}
+/* ── Cards ───────────────────────────────── */
+/* Key: NO global width:100% on select. Cards manage their own layout. */
+.card { background: var(--paper); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 9px; margin-bottom: 6px; overflow: hidden; }
+.card:hover { border-color: var(--ink3); }
+.card-body { flex: 1; min-width: 0; }
+.card-title { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-title.done { text-decoration: line-through; color: var(--ink3); }
+.card-meta { font-family: var(--mono); font-size: 10px; color: var(--ink3); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 
-/* Color picker */
-.cpicker{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
-.cpick{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
-.cpick.sel{border-color:var(--ink)}
+/* ── Inline grade select (inside cards) ──── */
+/* Completely isolated from form input styles */
+.grade-sel {
+  background: var(--green-bg);
+  color: var(--green);
+  border: none;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  width: auto;
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.grade-sel.gB { background: var(--blue-bg); color: var(--blue); }
+.grade-sel.gC { background: var(--amber-bg); color: var(--amber); }
+.grade-sel.gD, .grade-sel.gF { background: var(--red-bg); color: var(--red); }
 
-/* Grade select inline */
-.gsel{border-radius:4px;font-family:var(--mono);font-size:12px;cursor:pointer;font-weight:500;flex-shrink:0;outline:none}
-.gA{background:var(--green-bg);color:var(--green)}
-.gB{background:var(--blue-bg);color:var(--blue)}
-.gC{background:var(--amber-bg);color:var(--amber)}
-.gD,.gF{background:var(--red-bg);color:var(--red)}
+/* ── Delete button ───────────────────────── */
+.del-btn { background: none; border: none; cursor: pointer; color: var(--ink3); display: flex; align-items: center; padding: 2px; flex-shrink: 0; transition: color .15s; }
+.del-btn:hover { color: var(--red); }
+.del-btn svg { width: 13px; height: 13px; stroke-width: 1.5; fill: none; stroke: currentColor; }
 
-/* Score input */
-.scin{width:50px!important;text-align:center;padding:5px 3px;font-family:var(--mono);font-size:12px;flex-shrink:0}
+/* ── Status toggle ───────────────────────── */
+.status-btn { width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; flex-shrink: 0; transition: all .15s; padding: 0; display: flex; align-items: center; justify-content: center; }
+.status-btn.in-progress { border-color: var(--blue); background: var(--blue-bg); }
+.status-btn.completed { border-color: var(--green); background: var(--green); }
+.status-btn.completed::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #fff; display: block; }
 
-/* Quiz bar */
-.qbar-wrap{height:4px;background:var(--paper3);border-radius:2px;margin-top:6px;overflow:hidden}
-.qbar-fill{height:100%;border-radius:2px;transition:width .4s}
+/* ── Pills ───────────────────────────────── */
+.pill { font-family: var(--mono); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.p-low { background: var(--green-bg); color: var(--green); }
+.p-med { background: var(--amber-bg); color: var(--amber); }
+.p-high { background: var(--red-bg); color: var(--red); }
+.p-overdue { background: var(--red); color: #fff; }
+.p-today { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+.p-soon { background: var(--amber-bg); color: var(--amber); }
+.p-week { background: var(--blue-bg); color: var(--blue); }
+.p-ok { background: var(--paper2); color: var(--ink3); }
 
-/* Empty state */
-.empty{text-align:center;padding:36px 0;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+/* ── Priority selector ───────────────────── */
+.psel { display: flex; gap: 5px; }
+.popt { padding: 3px 9px; border-radius: 3px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; border: 1px solid var(--border); color: var(--ink3); cursor: pointer; background: none; transition: all .15s; }
+.popt.sl { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+.popt.sm { background: var(--amber-bg); color: var(--amber); border-color: var(--amber); }
+.popt.sh { background: var(--red-bg); color: var(--red); border-color: var(--red); }
 
-/* GPA */
-.gpa-hero{background:var(--ink);border-radius:10px;padding:22px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
-.gpa-hero::before{content:'GPA';position:absolute;font-family:var(--serif);font-size:100px;font-weight:900;color:rgba(255,255,255,.04);top:-16px;right:-6px;line-height:1;pointer-events:none}
-.gpa-lbl{font-family:var(--mono);font-size:10px;color:#9a9490;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
-.gpa-num{font-family:var(--serif);font-size:58px;font-weight:900;line-height:1;color:#f7f4ef}
-.gpa-sub{font-family:var(--mono);font-size:11px;color:#6b6660;margin-top:3px}
-.gpa-track{height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:14px;overflow:hidden}
-.gpa-fill{height:100%;border-radius:2px;transition:width .6s}
+/* ── Color picker ────────────────────────── */
+.cpicker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.cpick { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; flex-shrink: 0; }
+.cpick.sel { border-color: var(--ink); }
 
-/* Stat grid */
-.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}
-.scard{background:var(--paper2);border:1px solid var(--border);border-radius:6px;padding:9px;text-align:center}
-.sval{font-family:var(--mono);font-size:17px;font-weight:500}
-.slbl{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+/* ── Color dot ───────────────────────────── */
+.dot { border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
-/* Chart card */
-.ccard{background:var(--paper2);border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:10px}
-.cttl{font-family:var(--mono);font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+/* ── Quiz score input ────────────────────── */
+.score-in { width: 48px !important; text-align: center; padding: 5px 3px; font-family: var(--mono); font-size: 12px; background: var(--paper); border: 1px solid var(--border); border-radius: 6px; color: var(--ink); outline: none; flex-shrink: 0; }
 
-/* Distribution bars */
-.dist-bars{display:flex;align-items:flex-end;gap:8px;height:80px;margin-bottom:4px}
-.dist-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
-.dist-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px}
-.dist-lbl{font-family:var(--mono);font-size:10px;color:var(--ink3)}
-.dist-count{font-family:var(--mono);font-size:9px;color:var(--ink3)}
+/* ── Quiz bar ────────────────────────────── */
+.qbar { height: 4px; background: var(--paper3); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.qbar-fill { height: 100%; border-radius: 2px; }
 
-/* Breakdown rows */
-.bdrow{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--paper3)}
-.bdrow:last-child{border-bottom:none}
-.bdname{font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bdcr{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:0 8px;flex-shrink:0}
-.bdg{font-family:var(--mono);font-size:11px;font-weight:500;padding:2px 7px;border-radius:3px;flex-shrink:0}
+/* ── Empty state ─────────────────────────── */
+.empty { text-align: center; padding: 36px 0; font-family: var(--mono); font-size: 11px; color: var(--ink3); }
 
-/* Scenario calculator */
-.scenario{background:var(--ink);border-radius:10px;padding:16px;margin-bottom:10px}
-.sc-ttl{font-family:var(--mono);font-size:10px;color:#9a9490;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
-.sc-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.sc-lbl{font-family:var(--mono);font-size:11px;color:#9a9490;flex-shrink:0;min-width:88px}
-.sc-slider{-webkit-appearance:none;appearance:none;flex:1;height:3px;background:#3d3a35;border-radius:2px;border:none;padding:0;cursor:pointer;outline:none;width:auto}
-.sc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#2a8f76;cursor:pointer}
-.sc-val{font-family:var(--mono);font-size:12px;color:#f7f4ef;flex-shrink:0;min-width:30px;text-align:right}
-.sc-res{background:#2a2824;border-radius:6px;padding:12px;text-align:center;margin-top:2px}
-.sc-res-lbl{font-family:var(--mono);font-size:10px;color:#6b6660;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.sc-res-num{font-family:var(--serif);font-size:36px;font-weight:900;line-height:1}
-.sc-res-sub{font-family:var(--mono);font-size:10px;color:#6b6660;margin-top:4px}
+/* ── GPA hero ────────────────────────────── */
+.gpa-hero { background: var(--ink); border-radius: 10px; padding: 22px; text-align: center; margin-bottom: 14px; position: relative; overflow: hidden; }
+.gpa-hero::before { content: 'GPA'; position: absolute; font-family: var(--serif); font-size: 100px; font-weight: 900; color: rgba(255,255,255,.04); top: -16px; right: -6px; line-height: 1; pointer-events: none; }
+.gpa-lbl { font-family: var(--mono); font-size: 10px; color: #9a9490; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
+.gpa-num { font-family: var(--serif); font-size: 58px; font-weight: 900; line-height: 1; color: #f7f4ef; }
+.gpa-sub { font-family: var(--mono); font-size: 11px; color: #6b6660; margin-top: 3px; }
+.gpa-track { height: 3px; background: rgba(255,255,255,.08); border-radius: 2px; margin-top: 14px; overflow: hidden; }
+.gpa-fill { height: 100%; border-radius: 2px; transition: width .6s; }
+
+/* ── Stat grid ───────────────────────────── */
+.sgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 12px; }
+.scard { background: var(--paper2); border: 1px solid var(--border); border-radius: 6px; padding: 9px; text-align: center; }
+.sval { font-family: var(--mono); font-size: 17px; font-weight: 500; }
+.slbl { font-family: var(--mono); font-size: 9px; color: var(--ink3); text-transform: uppercase; letter-spacing: .06em; margin-top: 1px; }
+
+/* ── Chart card ──────────────────────────── */
+.ccard { background: var(--paper2); border: 1px solid var(--border); border-radius: 10px; padding: 13px; margin-bottom: 10px; }
+.cttl { font-family: var(--mono); font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+
+/* ── Grade distribution bars ─────────────── */
+.dist-bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; margin-bottom: 4px; }
+.dist-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.dist-bar { width: 100%; border-radius: 3px 3px 0 0; min-height: 2px; }
+.dist-lbl { font-family: var(--mono); font-size: 10px; color: var(--ink3); }
+.dist-count { font-family: var(--mono); font-size: 9px; color: var(--ink3); }
+
+/* ── Breakdown rows ──────────────────────── */
+.bdrow { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--paper3); }
+.bdrow:last-child { border-bottom: none; }
+.bdname { font-size: 13px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bdcr { font-family: var(--mono); font-size: 11px; color: var(--ink3); margin: 0 8px; flex-shrink: 0; }
+.bdg { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── Scenario calculator ─────────────────── */
+.scenario { background: var(--ink); border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+.sc-ttl { font-family: var(--mono); font-size: 10px; color: #9a9490; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.sc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.sc-lbl { font-family: var(--mono); font-size: 11px; color: #9a9490; flex-shrink: 0; min-width: 88px; }
+.sc-slider { -webkit-appearance: none; appearance: none; flex: 1; height: 3px; background: #3d3a35; border-radius: 2px; border: none; padding: 0; cursor: pointer; outline: none; }
+.sc-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #2a8f76; cursor: pointer; }
+.sc-val { font-family: var(--mono); font-size: 12px; color: #f7f4ef; flex-shrink: 0; min-width: 30px; text-align: right; }
+.sc-res { background: #2a2824; border-radius: 6px; padding: 12px; text-align: center; margin-top: 2px; }
+.sc-res-lbl { font-family: var(--mono); font-size: 10px; color: #6b6660; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.sc-res-num { font-family: var(--serif); font-size: 36px; font-weight: 900; line-height: 1; }
+.sc-res-sub { font-family: var(--mono); font-size: 10px; color: #6b6660; margin-top: 4px; }
 </style>
 </head>
 <body>
+
 <div id="app">
   <div class="hdr">
     <div class="eyebrow">
@@ -171,293 +228,340 @@ input::placeholder{color:var(--ink3)}
     </div>
     <h1>Academic Dashboard</h1>
     <div class="hdr-sub">courses · grades · gpa</div>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button onclick="exportData()" style="font-family:var(--mono);font-size:10px;color:var(--ink3);background:none;border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase">Export backup</button>
-      <label style="font-family:var(--mono);font-size:10px;color:var(--ink3);border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase">Import backup<input type="file" accept=".json" onchange="importData(this.files[0])" style="display:none"></label>
-    </div>
   </div>
   <div id="content"></div>
 </div>
-<nav class="tabbar"><div class="tabbar-inner" id="tabs"></div></nav>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" id="tabs"></div>
+</nav>
 
 <script>
-const GP={"A+":4,"A":4,"A-":3.7,"B+":3.3,"B":3,"B-":2.7,"C+":2.3,"C":2,"C-":1.7,"D+":1.3,"D":1,"D-":.7,"F":0};
-const GOPTS=["A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
-const COLORS=["#1a6b5a","#1e5f8f","#8f3a1e","#6b1a6b","#1e6b8f","#6b5c1a","#2d7a3a","#8f1e3a"];
+// ── Constants ─────────────────────────────────────────────────────────────────
+const GP = {"A+":4,"A":4,"A-":3.7,"B+":3.3,"B":3,"B-":2.7,"C+":2.3,"C":2,"C-":1.7,"D+":1.3,"D":1,"D-":.7,"F":0};
+const GOPTS = ["A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
+const COLORS = ["#1a6b5a","#1e5f8f","#8f3a1e","#6b1a6b","#1e6b8f","#6b5c1a","#2d7a3a","#8f1e3a"];
+const STORAGE_KEY = 'schooltracker_v1';
 
-// Storage — tries localStorage, falls back to in-memory, never crashes
-const MEM={};
-function lsGet(k){try{return localStorage.getItem(k);}catch{return MEM[k]||null;}}
-function lsSet(k,v){try{localStorage.setItem(k,v);}catch{MEM[k]=v;}}
-
-function loadState(){
-  try{
-    const s=lsGet('st2026');
-    if(!s)return null;
-    const p=JSON.parse(s);
-    // Validate it has the right shape
-    if(!p||!Array.isArray(p.courses))return null;
-    return p;
-  }catch(e){console.warn('SchoolTracker: could not load saved data',e);return null;}
+// ── Storage ───────────────────────────────────────────────────────────────────
+function storageGet() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.courses)) return null;
+    return parsed;
+  } catch(e) { return null; }
 }
-function saveState(){
-  try{
-    const data=JSON.stringify({courses:S.courses,assignments:S.assignments,quizzes:S.quizzes});
-    lsSet('st2026',data);
-  }catch(e){console.warn('SchoolTracker: could not save data',e);}
-}
-
-// Export data as a downloadable JSON backup
-function exportData(){
-  const data=JSON.stringify({courses:S.courses,assignments:S.assignments,quizzes:S.quizzes},null,2);
-  const blob=new Blob([data],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='schooltracker-backup.json';a.click();
-  URL.revokeObjectURL(url);
+function storageSave() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      courses: S.courses,
+      assignments: S.assignments,
+      quizzes: S.quizzes
+    }));
+  } catch(e) { console.warn('Save failed', e); }
 }
 
-// Import data from a JSON backup file
-function importData(file){
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const p=JSON.parse(e.target.result);
-      if(!p||!Array.isArray(p.courses))throw new Error('Invalid file');
-      S.courses=p.courses||[];
-      S.assignments=p.assignments||[];
-      S.quizzes=p.quizzes||[];
-      saveState();render();
-    }catch{alert('Invalid backup file. Please use a file exported from SchoolTracker.');}
-  };
-  reader.readAsText(file);
-}
-
-const saved=loadState();
-// Only use sample data on genuine first launch (no saved key at all)
-// If saved exists, always use it — even if arrays are empty (user deleted everything)
-const firstLaunch=saved===null;
-const S={
-  tab:'courses',showForm:false,form:{},priority:'medium',pickedColor:COLORS[0],targetGpa:3.5,remainCr:15,
-  courses:firstLaunch?[
-    {id:'c1',name:'English 201',credits:3,color:'#1e5f8f',professor:'Prof. Martin',grade:'A-'},
-    {id:'c2',name:'Calculus II',credits:4,color:'#1a6b5a',professor:'Prof. Chen',grade:'B+'},
-    {id:'c3',name:'Chemistry 101',credits:4,color:'#8f3a1e',professor:'Prof. Okafor',grade:'A'},
-    {id:'c4',name:'History 105',credits:3,color:'#6b1a6b',professor:'',grade:'B'},
-  ]:saved.courses,
-  assignments:firstLaunch?[
-    {id:'a1',title:'Research Paper Draft',courseId:'c1',dueDate:'2026-04-10',status:'in-progress',priority:'high'},
-    {id:'a2',title:'Problem Set 5',courseId:'c2',dueDate:'2026-04-12',status:'pending',priority:'medium'},
-    {id:'a3',title:'Lab Report: Titration',courseId:'c3',dueDate:'2026-04-08',status:'completed',priority:'low'},
-  ]:saved.assignments,
-  quizzes:firstLaunch?[
-    {id:'q1',title:'Midterm Review Quiz',courseId:'c2',date:'2026-03-28',score:88,totalPoints:100},
-    {id:'q2',title:'Vocab Quiz 4',courseId:'c1',date:'2026-04-02',score:null,totalPoints:50},
-    {id:'q3',title:'Lab Practical',courseId:'c3',date:'2026-03-20',score:45,totalPoints:50},
-  ]:saved.quizzes,
+// ── Initial state ─────────────────────────────────────────────────────────────
+const SAMPLE = {
+  courses: [
+    {id:'c1', name:'English 201',   credits:3, color:'#1e5f8f', professor:'Prof. Martin', grade:'A-'},
+    {id:'c2', name:'Calculus II',   credits:4, color:'#1a6b5a', professor:'Prof. Chen',   grade:'B+'},
+    {id:'c3', name:'Chemistry 101', credits:4, color:'#8f3a1e', professor:'Prof. Okafor', grade:'A'},
+    {id:'c4', name:'History 105',   credits:3, color:'#6b1a6b', professor:'',             grade:'B'},
+  ],
+  assignments: [
+    {id:'a1', title:'Research Paper Draft',   courseId:'c1', dueDate:'2026-04-10', status:'in-progress', priority:'high'},
+    {id:'a2', title:'Problem Set 5',          courseId:'c2', dueDate:'2026-04-12', status:'pending',     priority:'medium'},
+    {id:'a3', title:'Lab Report: Titration',  courseId:'c3', dueDate:'2026-04-08', status:'completed',   priority:'low'},
+  ],
+  quizzes: [
+    {id:'q1', title:'Midterm Review Quiz', courseId:'c2', date:'2026-03-28', score:88,   totalPoints:100},
+    {id:'q2', title:'Vocab Quiz 4',        courseId:'c1', date:'2026-04-02', score:null, totalPoints:50},
+    {id:'q3', title:'Lab Practical',       courseId:'c3', date:'2026-03-20', score:45,   totalPoints:50},
+  ]
 };
-// Save immediately on first launch so subsequent loads know data exists
-if(firstLaunch)saveState();
 
-const uid=()=>Math.random().toString(36).slice(2,10);
-function gcls(g){const p=GP[g]??0;return p>=3.7?'gA':p>=3?'gB':p>=2?'gC':'gF';}
-function gpaColor(g){return g>=3.7?'#1a6b5a':g>=3?'#1e5f8f':g>=2?'#b8730a':'#c0392b';}
-function qavg(cid){
-  const qs=S.quizzes.filter(q=>q.courseId===cid&&q.score!==null);
-  if(!qs.length)return null;
-  return Math.round(qs.reduce((s,q)=>s+(q.score/q.totalPoints)*100,0)/qs.length*10)/10;
+// Load saved data — if nothing saved, use sample data and save it immediately
+const saved = storageGet();
+const S = {
+  tab: 'courses',
+  showForm: false,
+  form: {},
+  priority: 'medium',
+  pickedColor: COLORS[0],
+  targetGpa: 3.5,
+  remainCr: 15,
+  courses:     saved ? saved.courses     : SAMPLE.courses,
+  assignments: saved ? saved.assignments : SAMPLE.assignments,
+  quizzes:     saved ? saved.quizzes     : SAMPLE.quizzes,
+};
+if (!saved) storageSave(); // write sample data so next load restores it
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+function gcls(g) {
+  const p = GP[g] ?? 0;
+  return p >= 3.7 ? '' : p >= 3 ? 'gB' : p >= 2 ? 'gC' : 'gF';
 }
-function urgency(d,status){
-  if(!d||status==='completed')return null;
-  const now=new Date();now.setHours(0,0,0,0);
-  const due=new Date(d);due.setHours(0,0,0,0);
-  const diff=Math.round((due-now)/864e5);
-  if(diff<0)return{l:'Overdue',c:'p-overdue'};
-  if(diff===0)return{l:'Today',c:'p-today'};
-  if(diff<=2)return{l:diff+'d',c:'p-soon'};
-  if(diff<=7)return{l:diff+'d',c:'p-week'};
-  return{l:diff+'d',c:'p-ok'};
+
+function gpaColor(g) {
+  return g >= 3.7 ? '#1a6b5a' : g >= 3 ? '#1e5f8f' : g >= 2 ? '#b8730a' : '#c0392b';
 }
-function cById(id){return S.courses.find(c=>c.id===id);}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function cSel(val=''){
-  return '<select class="course-sel" style="width:100%"><option value="">Select course</option>'+
-    S.courses.map(c=>`<option value="${c.id}"${val===c.id?' selected':''}>${esc(c.name)}</option>`).join('')+'</select>';
+
+function qavg(cid) {
+  const qs = S.quizzes.filter(q => q.courseId === cid && q.score !== null);
+  if (!qs.length) return null;
+  return Math.round(qs.reduce((s, q) => s + (q.score / q.totalPoints) * 100, 0) / qs.length * 10) / 10;
 }
-const T=`<svg viewBox="0 0 24 24"><polyline stroke-linecap="round" points="3 6 5 6 21 6"/><path stroke-linecap="round" d="M19 6l-1 14H6L5 6"/><path stroke-linecap="round" d="M10 11v6M14 11v6"/><path stroke-linecap="round" d="M9 6V4h6v2"/></svg>`;
-const PL=`<svg viewBox="0 0 24 24"><line stroke-linecap="round" x1="12" y1="5" x2="12" y2="19"/><line stroke-linecap="round" x1="5" y1="12" x2="19" y2="12"/></svg>`;
 
-// ── Render functions ──────────────────────────────────────
+function urgency(d, status) {
+  if (!d || status === 'completed') return null;
+  const now = new Date(); now.setHours(0,0,0,0);
+  const due = new Date(d); due.setHours(0,0,0,0);
+  const diff = Math.round((due - now) / 864e5);
+  if (diff < 0)  return { l: 'Overdue', c: 'p-overdue' };
+  if (diff === 0) return { l: 'Today',   c: 'p-today' };
+  if (diff <= 2)  return { l: diff+'d',  c: 'p-soon' };
+  if (diff <= 7)  return { l: diff+'d',  c: 'p-week' };
+  return { l: diff+'d', c: 'p-ok' };
+}
 
-function renderCourses(){
-  let h=`<div class="sec-hdr">
-    <div><h2>Courses</h2><div class="sec-lbl">${S.courses.length} enrolled</div></div>
-    <button class="add-btn" id="toggle-form">${PL} Add</button>
-  </div>`;
+function cById(id) { return S.courses.find(c => c.id === id); }
 
-  if(S.showForm){
-    h+=`<div class="form">
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function courseSel(val = '') {
+  return '<select class="course-sel">'
+    + '<option value="">Select course</option>'
+    + S.courses.map(c => `<option value="${c.id}"${val===c.id?' selected':''}>${esc(c.name)}</option>`).join('')
+    + '</select>';
+}
+
+function gradeSelOpts(current) {
+  return GOPTS.map(g => `<option value="${g}"${g===current?' selected':''}>${g}</option>`).join('');
+}
+
+// SVG icons
+const TRASH = `<svg viewBox="0 0 24 24"><polyline stroke-linecap="round" points="3 6 5 6 21 6"/><path stroke-linecap="round" d="M19 6l-1 14H6L5 6"/><path stroke-linecap="round" d="M10 11v6M14 11v6"/><path stroke-linecap="round" d="M9 6V4h6v2"/></svg>`;
+const PLUS  = `<svg viewBox="0 0 24 24"><line stroke-linecap="round" x1="12" y1="5" x2="12" y2="19"/><line stroke-linecap="round" x1="5" y1="12" x2="19" y2="12"/></svg>`;
+
+// ── Render: Courses ───────────────────────────────────────────────────────────
+function renderCourses() {
+  let h = `
+    <div class="sec-hdr">
+      <div><h2>Courses</h2><div class="sec-lbl">${S.courses.length} enrolled</div></div>
+      <button class="add-btn" id="toggle-form">${PLUS} Add</button>
+    </div>`;
+
+  if (S.showForm) {
+    h += `
+    <div class="form">
       <input id="f-name" placeholder="Course name (e.g. Calculus II)" value="${esc(S.form.name||'')}">
       <div class="g3">
         <input id="f-credits" type="number" placeholder="Credits" value="${esc(S.form.credits||'3')}">
-        <select id="f-grade-sel">${GOPTS.map(g=>`<option value="${g}"${g===(S.form.grade||'A')?' selected':''}>${g}</option>`).join('')}</select>
+        <select id="f-grade-sel">${gradeSelOpts(S.form.grade||'A')}</select>
         <input id="f-prof" placeholder="Professor" value="${esc(S.form.professor||'')}">
       </div>
       <div>
         <div class="flbl">Color</div>
-        <div class="cpicker">${COLORS.map(c=>`<div class="cpick${S.pickedColor===c?' sel':''}" data-color="${c}" style="background:${c}"></div>`).join('')}</div>
+        <div class="cpicker">
+          ${COLORS.map(c => `<div class="cpick${S.pickedColor===c?' sel':''}" data-color="${c}" style="background:${c}"></div>`).join('')}
+        </div>
       </div>
       <button class="save-btn" id="save-course">Add Course</button>
       <div class="cancel-lnk" id="cancel-form">cancel</div>
     </div>`;
   }
 
-  if(S.courses.length===0){
-    h+=`<p class="empty">No courses yet. Add your first course above.</p>`;
+  if (S.courses.length === 0) {
+    h += `<p class="empty">No courses yet. Add your first course above.</p>`;
   }
 
-  S.courses.forEach(c=>{
-    const avg=qavg(c.id);
-    h+=`<div class="card" style="align-items:flex-start">
-      <div style="width:10px;height:10px;border-radius:50%;background:${c.color};flex-shrink:0;margin-top:3px"></div>
-      <div class="cbody">
-        <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>
-        <div class="cmeta">${c.credits}cr${c.professor?' · '+esc(c.professor):''}${avg!==null?' · quiz avg: '+avg+'%':''}</div>
-        ${avg!==null?`<div class="qbar-wrap"><div class="qbar-fill" style="width:${avg}%;background:${c.color}"></div></div>`:''}
+  S.courses.forEach(c => {
+    const avg = qavg(c.id);
+    h += `
+    <div class="card" style="align-items:flex-start">
+      <div class="dot" style="width:10px;height:10px;background:${c.color};margin-top:3px"></div>
+      <div class="card-body">
+        <div class="card-title">${esc(c.name)}</div>
+        <div class="card-meta">${c.credits}cr${c.professor ? ' · '+esc(c.professor) : ''}${avg !== null ? ' · quiz avg: '+avg+'%' : ''}</div>
+        ${avg !== null ? `<div class="qbar"><div class="qbar-fill" style="width:${avg}%;background:${c.color}"></div></div>` : ''}
       </div>
-      <div class="card-actions">
-        <select class="gsel ${gcls(c.grade)} course-grade-sel" data-id="${c.id}">${GOPTS.map(g=>`<option value="${g}"${g===c.grade?' selected':''}>${g}</option>`).join('')}</select>
-        <button class="delbtn del-course" data-id="${c.id}">${T}</button>
+      <div class="card-right">
+        <select class="grade-sel ${gcls(c.grade)}" data-id="${c.id}">${gradeSelOpts(c.grade)}</select>
+        <button class="del-btn del-course" data-id="${c.id}">${TRASH}</button>
       </div>
     </div>`;
   });
+
   return h;
 }
 
-function renderAssignments(){
-  const pending=S.assignments.filter(a=>a.status!=='completed').length;
-  const p=S.priority;
-  let h=`<div class="sec-hdr">
-    <div><h2>Assignments</h2><div class="sec-lbl">${pending} pending</div></div>
-    <button class="add-btn" id="toggle-form">${PL} Add</button>
-  </div>`;
+// ── Render: Assignments ───────────────────────────────────────────────────────
+function renderAssignments() {
+  const pending = S.assignments.filter(a => a.status !== 'completed').length;
+  const p = S.priority;
 
-  if(S.showForm){
-    h+=`<div class="form">
+  let h = `
+    <div class="sec-hdr">
+      <div><h2>Assignments</h2><div class="sec-lbl">${pending} pending</div></div>
+      <button class="add-btn" id="toggle-form">${PLUS} Add</button>
+    </div>`;
+
+  if (S.showForm) {
+    h += `
+    <div class="form">
       <input id="f-title" placeholder="Assignment title" value="${esc(S.form.title||'')}">
       <div class="g2">
-        ${cSel(S.form.courseId)}
+        ${courseSel(S.form.courseId)}
         <input id="f-due" type="date" value="${esc(S.form.dueDate||'')}">
       </div>
       <div class="psel">
-        <button class="popt${p==='low'?' sl':''}" data-p="low">low</button>
+        <button class="popt${p==='low'  ?' sl':''}" data-p="low">low</button>
         <button class="popt${p==='medium'?' sm':''}" data-p="medium">medium</button>
-        <button class="popt${p==='high'?' sh':''}" data-p="high">high</button>
+        <button class="popt${p==='high' ?' sh':''}" data-p="high">high</button>
       </div>
       <button class="save-btn" id="save-assign">Save Assignment</button>
       <div class="cancel-lnk" id="cancel-form">cancel</div>
     </div>`;
   }
 
-  if(S.assignments.length===0){h+=`<p class="empty">No assignments yet.</p>`;}
+  if (S.assignments.length === 0) {
+    h += `<p class="empty">No assignments yet.</p>`;
+  }
 
-  S.assignments.forEach(a=>{
-    const c=cById(a.courseId);
-    const u=urgency(a.dueDate,a.status);
-    const pc=a.priority==='low'?'p-low':a.priority==='medium'?'p-med':'p-high';
-    h+=`<div class="card">
-      <button class="sbtn ${a.status} toggle-status" data-id="${a.id}"></button>
-      <div class="cbody">
-        <div class="ctitle${a.status==='completed'?' done':''}">${esc(a.title)}</div>
-        <div class="cmeta">
-          ${c?`<span style="width:7px;height:7px;border-radius:50%;background:${c.color};display:inline-block;flex-shrink:0"></span> ${esc(c.name)}`:''} 
-          ${a.dueDate?`· ${esc(a.dueDate)}`:''}
+  S.assignments.forEach(a => {
+    const c  = cById(a.courseId);
+    const u  = urgency(a.dueDate, a.status);
+    const pc = a.priority==='low' ? 'p-low' : a.priority==='medium' ? 'p-med' : 'p-high';
+    h += `
+    <div class="card">
+      <button class="status-btn ${a.status} toggle-status" data-id="${a.id}"></button>
+      <div class="card-body">
+        <div class="card-title${a.status==='completed'?' done':''}">${esc(a.title)}</div>
+        <div class="card-meta">
+          ${c ? `<span class="dot" style="width:7px;height:7px;background:${c.color};margin-right:4px"></span>${esc(c.name)}` : ''}
+          ${a.dueDate ? ' · '+esc(a.dueDate) : ''}
         </div>
       </div>
-      <div class="card-actions">
-        ${u?`<span class="pill ${u.c}">${u.l}</span>`:''}
+      <div class="card-right">
+        ${u ? `<span class="pill ${u.c}">${u.l}</span>` : ''}
         <span class="pill ${pc}">${a.priority}</span>
-        <button class="delbtn del-assign" data-id="${a.id}">${T}</button>
+        <button class="del-btn del-assign" data-id="${a.id}">${TRASH}</button>
       </div>
     </div>`;
   });
+
   return h;
 }
 
-function renderQuizzes(){
-  const scored=S.quizzes.filter(q=>q.score!==null);
-  const avg=scored.length?Math.round(scored.reduce((s,q)=>s+(q.score/q.totalPoints)*100,0)/scored.length*10)/10:0;
-  let h=`<div class="sec-hdr">
-    <div><h2>Quizzes</h2><div class="sec-lbl">${scored.length?scored.length+' scored · avg '+avg+'%':'No scores yet'}</div></div>
-    <button class="add-btn" id="toggle-form">${PL} Add</button>
-  </div>`;
+// ── Render: Quizzes ───────────────────────────────────────────────────────────
+function renderQuizzes() {
+  const scored = S.quizzes.filter(q => q.score !== null);
+  const avg = scored.length
+    ? Math.round(scored.reduce((s,q) => s + (q.score/q.totalPoints)*100, 0) / scored.length * 10) / 10
+    : 0;
 
-  if(S.showForm){
-    h+=`<div class="form">
+  let h = `
+    <div class="sec-hdr">
+      <div><h2>Quizzes</h2><div class="sec-lbl">${scored.length ? scored.length+' scored · avg '+avg+'%' : 'No scores yet'}</div></div>
+      <button class="add-btn" id="toggle-form">${PLUS} Add</button>
+    </div>`;
+
+  if (S.showForm) {
+    h += `
+    <div class="form">
       <input id="f-title" placeholder="Quiz or exam title" value="${esc(S.form.title||'')}">
       <div class="g3">
-        ${cSel(S.form.courseId)}
+        ${courseSel(S.form.courseId)}
         <input id="f-date" type="date" value="${esc(S.form.date||'')}">
-        <input id="f-pts" type="number" placeholder="Total pts" value="${esc(S.form.totalPoints||'100')}">
+        <input id="f-pts" type="number" placeholder="Pts" value="${esc(S.form.totalPoints||'100')}">
       </div>
       <button class="save-btn" id="save-quiz">Save Quiz</button>
       <div class="cancel-lnk" id="cancel-form">cancel</div>
     </div>`;
   }
 
-  if(S.quizzes.length===0){h+=`<p class="empty">No quizzes yet.</p>`;}
+  if (S.quizzes.length === 0) {
+    h += `<p class="empty">No quizzes yet.</p>`;
+  }
 
-  S.quizzes.forEach(q=>{
-    const c=cById(q.courseId);
-    const pct=q.score!==null?Math.round((q.score/q.totalPoints)*100):null;
-    const pctColor=pct===null?'inherit':pct>=70?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
-    h+=`<div class="card">
-      <div class="cbody">
-        <div class="ctitle">${esc(q.title)}</div>
-        <div class="cmeta">
-          ${c?`<span style="width:7px;height:7px;border-radius:50%;background:${c.color};display:inline-block"></span> ${esc(c.name)}`:''}
-          ${q.date?`· ${esc(q.date)}`:''}
-          ${pct!==null?`<span style="color:${pctColor}"> · ${pct}%</span>`:''}
+  S.quizzes.forEach(q => {
+    const c   = cById(q.courseId);
+    const pct = q.score !== null ? Math.round((q.score / q.totalPoints) * 100) : null;
+    const pc  = pct === null ? 'inherit' : pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--amber)' : 'var(--red)';
+    h += `
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">${esc(q.title)}</div>
+        <div class="card-meta">
+          ${c ? `<span class="dot" style="width:7px;height:7px;background:${c.color};margin-right:4px"></span>${esc(c.name)}` : ''}
+          ${q.date ? ' · '+esc(q.date) : ''}
+          ${pct !== null ? `<span style="color:${pc}"> · ${pct}%</span>` : ''}
         </div>
       </div>
-      <div class="card-actions">
-        <input class="scin quiz-score" type="number" data-id="${q.id}" value="${q.score??''}" placeholder="—">
-        <span style="font-family:var(--mono);font-size:11px;color:var(--ink3);white-space:nowrap">/${q.totalPoints}</span>
-        <button class="delbtn del-quiz" data-id="${q.id}">${T}</button>
+      <div class="card-right">
+        <input class="score-in quiz-score" type="number" data-id="${q.id}" value="${q.score ?? ''}" placeholder="—">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--ink3)">/${q.totalPoints}</span>
+        <button class="del-btn del-quiz" data-id="${q.id}">${TRASH}</button>
       </div>
     </div>`;
   });
+
   return h;
 }
 
-function renderGpa(){
-  const total=S.courses.reduce((s,c)=>s+c.credits,0);
-  const wsum=S.courses.reduce((s,c)=>s+(GP[c.grade]??0)*c.credits,0);
-  const gpa=total>0?wsum/total:0;
-  const gpaStr=total>0?gpa.toFixed(2):'—';
-  const bc=gpaColor(gpa);
-  const tg=S.targetGpa,rc=S.remainCr;
-  const needed=total>0?(tg*(total+rc)-wsum)/rc:null;
-  const nd=needed===null?'—':needed<0?'Already there!':needed>4?'Not possible':(Math.round(needed*100)/100).toFixed(2);
-  const nc=needed===null?'#6b6660':needed<0?'#1a6b5a':needed>4?'#c0392b':needed>3.5?'#b8730a':'#1a6b5a';
-  const nsub=needed!==null&&needed>=0&&needed<=4?needed<=2?'very achievable':needed<=3?'achievable':needed<=3.7?'challenging':'near perfect':'';
-  const dist=S.courses.reduce((a,c)=>{const l=c.grade[0];a[l]=(a[l]||0)+1;return a;},{});
-  const maxd=Math.max(...['A','B','C','D','F'].map(l=>dist[l]||0),1);
-  const bc2={A:'#1a6b5a',B:'#1e5f8f',C:'#b8730a',D:'#e67e22',F:'#c0392b'};
-  const best=S.courses.length?S.courses.reduce((b,c)=>(GP[c.grade]??0)>(GP[b.grade]??0)?c:b,S.courses[0]).grade:'—';
+// ── Render: GPA ───────────────────────────────────────────────────────────────
+function renderGpa() {
+  const total = S.courses.reduce((s,c) => s + c.credits, 0);
+  const wsum  = S.courses.reduce((s,c) => s + (GP[c.grade]??0) * c.credits, 0);
+  const gpa   = total > 0 ? wsum / total : 0;
+  const gpaStr = total > 0 ? gpa.toFixed(2) : '—';
+  const bc = gpaColor(gpa);
+
+  const tg = S.targetGpa, rc = S.remainCr;
+  const needed = total > 0 ? (tg * (total + rc) - wsum) / rc : null;
+  const nd = needed === null ? '—'
+    : needed < 0 ? 'Already there!'
+    : needed > 4 ? 'Not possible'
+    : (Math.round(needed * 100) / 100).toFixed(2);
+  const nc = needed === null ? '#6b6660'
+    : needed < 0 ? '#1a6b5a'
+    : needed > 4 ? '#c0392b'
+    : needed > 3.5 ? '#b8730a' : '#1a6b5a';
+  const nsub = needed !== null && needed >= 0 && needed <= 4
+    ? needed <= 2 ? 'very achievable' : needed <= 3 ? 'achievable' : needed <= 3.7 ? 'challenging' : 'near perfect'
+    : '';
+
+  const dist = S.courses.reduce((a,c) => { const l=c.grade[0]; a[l]=(a[l]||0)+1; return a; }, {});
+  const maxd = Math.max(...['A','B','C','D','F'].map(l => dist[l]||0), 1);
+  const bc2  = {A:'#1a6b5a',B:'#1e5f8f',C:'#b8730a',D:'#e67e22',F:'#c0392b'};
+  const best = S.courses.length
+    ? S.courses.reduce((b,c) => (GP[c.grade]??0) > (GP[b.grade]??0) ? c : b, S.courses[0]).grade
+    : '—';
 
   return `
   <h2 style="margin-bottom:12px">GPA Tracker</h2>
+
   <div class="gpa-hero">
     <div class="gpa-lbl">Cumulative GPA</div>
     <div class="gpa-num">${gpaStr}</div>
     <div class="gpa-sub">out of 4.00</div>
     <div class="gpa-track"><div class="gpa-fill" style="width:${total>0?(gpa/4*100).toFixed(1):0}%;background:${bc}"></div></div>
   </div>
+
   <div class="sgrid">
     ${[{l:'Courses',v:S.courses.length},{l:'Credits',v:total},{l:'Best',v:best},{l:'Qual Pts',v:total>0?Math.round(wsum*10)/10:'—'}]
-      .map(s=>`<div class="scard"><div class="sval">${s.v}</div><div class="slbl">${s.l}</div></div>`).join('')}
+      .map(s => `<div class="scard"><div class="sval">${s.v}</div><div class="slbl">${s.l}</div></div>`).join('')}
   </div>
+
   <div class="scenario">
     <div class="sc-ttl">What score do I need?</div>
     <div class="sc-row">
@@ -472,17 +576,18 @@ function renderGpa(){
     </div>
     <div class="sc-res">
       <div class="sc-res-lbl">Required avg GPA on remaining credits</div>
-      <div class="sc-res-num" style="color:${nc}">${nd}</div>
-      ${nsub?`<div class="sc-res-sub">${nsub}</div>`:''}
+      <div class="sc-res-num" id="sc-num" style="color:${nc}">${nd}</div>
+      <div class="sc-res-sub" id="sc-sub">${nsub}</div>
     </div>
   </div>
-  ${S.courses.length>0?`
+
+  ${S.courses.length > 0 ? `
   <div class="ccard">
     <div class="cttl">Grade distribution</div>
     <div class="dist-bars">
-      ${['A','B','C','D','F'].map(l=>{
-        const cnt=dist[l]||0;
-        const h=cnt>0?Math.round((cnt/maxd)*100):2;
+      ${['A','B','C','D','F'].map(l => {
+        const cnt = dist[l] || 0;
+        const h = cnt > 0 ? Math.round((cnt/maxd)*100) : 2;
         return `<div class="dist-col">
           <div class="dist-count">${cnt||''}</div>
           <div class="dist-bar" style="height:${h}%;background:${bc2[l]}"></div>
@@ -491,168 +596,194 @@ function renderGpa(){
       }).join('')}
     </div>
   </div>
+
   <div class="ccard">
     <div class="cttl">Course breakdown</div>
-    ${S.courses.map(c=>`
+    ${S.courses.map(c => `
       <div class="bdrow">
-        <div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0;margin-right:8px"></div>
+        <div class="dot" style="width:8px;height:8px;background:${c.color};margin-right:8px;flex-shrink:0"></div>
         <span class="bdname">${esc(c.name)}</span>
         <span class="bdcr">${c.credits}cr</span>
-        <span class="bdg ${gcls(c.grade)}">${c.grade} (${(GP[c.grade]??0).toFixed(1)})</span>
+        <span class="bdg ${gcls(c.grade)}" style="background:${GP[c.grade]>=3.7?'var(--green-bg)':GP[c.grade]>=3?'var(--blue-bg)':GP[c.grade]>=2?'var(--amber-bg)':'var(--red-bg)'};color:${GP[c.grade]>=3.7?'var(--green)':GP[c.grade]>=3?'var(--blue)':GP[c.grade]>=2?'var(--amber)':'var(--red)'}">
+          ${c.grade} (${(GP[c.grade]??0).toFixed(1)})
+        </span>
       </div>`).join('')}
-  </div>`:''}
-  ${S.courses.length===0?'<p class="empty">Add courses to see your GPA.</p>':''}`;
+  </div>` : ''}
+
+  ${S.courses.length === 0 ? '<p class="empty">Add courses to see your GPA.</p>' : ''}`;
 }
 
-// ── Tab bar ───────────────────────────────────────────────
-const TABS=[
-  {id:'courses',label:'Courses',icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`},
-  {id:'assignments',label:'Tasks',icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path stroke-linecap="round" d="M9 12h6M9 16h4"/></svg>`},
-  {id:'quizzes',label:'Quizzes',icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`},
-  {id:'gpa',label:'GPA',icon:`<svg viewBox="0 0 24 24"><polyline stroke-linecap="round" stroke-linejoin="round" points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline stroke-linecap="round" stroke-linejoin="round" points="16 7 22 7 22 13"/></svg>`},
+// ── Tab bar ───────────────────────────────────────────────────────────────────
+const TABS = [
+  {id:'courses',     label:'Courses', icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`},
+  {id:'assignments', label:'Tasks',   icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path stroke-linecap="round" d="M9 12h6M9 16h4"/></svg>`},
+  {id:'quizzes',     label:'Quizzes', icon:`<svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`},
+  {id:'gpa',         label:'GPA',     icon:`<svg viewBox="0 0 24 24"><polyline stroke-linecap="round" stroke-linejoin="round" points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline stroke-linecap="round" stroke-linejoin="round" points="16 7 22 7 22 13"/></svg>`},
 ];
 
-function renderTabs(){
-  document.getElementById('tabs').innerHTML=TABS.map(t=>
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = TABS.map(t =>
     `<button class="tbtn${S.tab===t.id?' act':''}" data-tab="${t.id}">${t.icon}<span>${t.label}</span></button>`
   ).join('');
 }
 
-// ── Main render ───────────────────────────────────────────
-function render(){
-  document.getElementById('content').innerHTML=
-    S.tab==='courses'?renderCourses():
-    S.tab==='assignments'?renderAssignments():
-    S.tab==='quizzes'?renderQuizzes():
+// ── Main render ───────────────────────────────────────────────────────────────
+function render() {
+  document.getElementById('content').innerHTML =
+    S.tab === 'courses'     ? renderCourses() :
+    S.tab === 'assignments' ? renderAssignments() :
+    S.tab === 'quizzes'     ? renderQuizzes() :
     renderGpa();
   renderTabs();
-  bind();
+  bindEvents();
 }
 
-function updScenario(){
-  const total=S.courses.reduce((s,c)=>s+c.credits,0);
-  const wsum=S.courses.reduce((s,c)=>s+(GP[c.grade]??0)*c.credits,0);
-  const needed=total>0?(S.targetGpa*(total+S.remainCr)-wsum)/S.remainCr:null;
-  const nd=needed===null?'—':needed<0?'Already there!':needed>4?'Not possible':(Math.round(needed*100)/100).toFixed(2);
-  const nc=needed===null?'#6b6660':needed<0?'#1a6b5a':needed>4?'#c0392b':needed>3.5?'#b8730a':'#1a6b5a';
-  const nsub=needed!==null&&needed>=0&&needed<=4?needed<=2?'very achievable':needed<=3?'achievable':needed<=3.7?'challenging':'near perfect':'';
-  const el=document.querySelector('.sc-res-num');
-  const sl=document.querySelector('.sc-res-sub');
-  if(el){el.textContent=nd;el.style.color=nc;}
-  if(sl)sl.textContent=nsub;
+// ── Scenario live update (no full re-render) ──────────────────────────────────
+function updateScenario() {
+  const total = S.courses.reduce((s,c) => s + c.credits, 0);
+  const wsum  = S.courses.reduce((s,c) => s + (GP[c.grade]??0) * c.credits, 0);
+  const needed = total > 0 ? (S.targetGpa * (total + S.remainCr) - wsum) / S.remainCr : null;
+  const nd = needed === null ? '—'
+    : needed < 0 ? 'Already there!'
+    : needed > 4 ? 'Not possible'
+    : (Math.round(needed * 100) / 100).toFixed(2);
+  const nc = needed === null ? '#6b6660'
+    : needed < 0 ? '#1a6b5a'
+    : needed > 4 ? '#c0392b'
+    : needed > 3.5 ? '#b8730a' : '#1a6b5a';
+  const nsub = needed !== null && needed >= 0 && needed <= 4
+    ? needed <= 2 ? 'very achievable' : needed <= 3 ? 'achievable' : needed <= 3.7 ? 'challenging' : 'near perfect'
+    : '';
+  const ne = document.getElementById('sc-num');
+  const se = document.getElementById('sc-sub');
+  if (ne) { ne.textContent = nd; ne.style.color = nc; }
+  if (se) se.textContent = nsub;
 }
 
-// ── Event binding ─────────────────────────────────────────
-function bind(){
-  document.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',()=>{
-    S.tab=b.dataset.tab;S.showForm=false;S.form={};render();
+// ── Event binding ─────────────────────────────────────────────────────────────
+function bindEvents() {
+  // Tab switching
+  document.querySelectorAll('.tbtn').forEach(b => b.addEventListener('click', () => {
+    S.tab = b.dataset.tab; S.showForm = false; S.form = {}; render();
   }));
 
-  const tf=document.getElementById('toggle-form');
-  if(tf)tf.addEventListener('click',()=>{S.showForm=!S.showForm;render();});
+  // Toggle form open/close
+  const tf = document.getElementById('toggle-form');
+  if (tf) tf.addEventListener('click', () => { S.showForm = !S.showForm; render(); });
 
-  const cf=document.getElementById('cancel-form');
-  if(cf)cf.addEventListener('click',()=>{S.showForm=false;S.form={};render();});
+  const cf = document.getElementById('cancel-form');
+  if (cf) cf.addEventListener('click', () => { S.showForm = false; S.form = {}; render(); });
 
-  document.querySelectorAll('.cpick').forEach(el=>el.addEventListener('click',()=>{
-    S.pickedColor=el.dataset.color;render();
+  // Color picker
+  document.querySelectorAll('.cpick').forEach(el => el.addEventListener('click', () => {
+    S.pickedColor = el.dataset.color; render();
   }));
 
-  document.querySelectorAll('.popt').forEach(b=>b.addEventListener('click',()=>{
-    S.priority=b.dataset.p;render();
+  // Priority selector
+  document.querySelectorAll('.popt').forEach(b => b.addEventListener('click', () => {
+    S.priority = b.dataset.p; render();
   }));
 
-  // Save course
-  const sc=document.getElementById('save-course');
-  if(sc)sc.addEventListener('click',()=>{
-    const name=document.getElementById('f-name').value.trim();
-    if(!name)return;
+  // ── Save course ──
+  const saveCourse = document.getElementById('save-course');
+  if (saveCourse) saveCourse.addEventListener('click', () => {
+    const name = document.getElementById('f-name').value.trim();
+    if (!name) return;
     S.courses.push({
-      id:uid(),name,
-      credits:Number(document.getElementById('f-credits').value)||3,
-      professor:document.getElementById('f-prof').value.trim(),
-      color:S.pickedColor,
-      grade:document.getElementById('f-grade-sel').value
+      id: uid(),
+      name,
+      credits: Number(document.getElementById('f-credits').value) || 3,
+      professor: document.getElementById('f-prof').value.trim(),
+      color: S.pickedColor,
+      grade: document.getElementById('f-grade-sel').value,
     });
-    S.showForm=false;S.form={};saveState();render();
+    S.showForm = false; S.form = {};
+    storageSave(); render();
   });
 
-  // Save assignment
-  const sa=document.getElementById('save-assign');
-  if(sa)sa.addEventListener('click',()=>{
-    const title=document.getElementById('f-title').value.trim();
-    if(!title)return;
+  // ── Save assignment ──
+  const saveAssign = document.getElementById('save-assign');
+  if (saveAssign) saveAssign.addEventListener('click', () => {
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) return;
     S.assignments.push({
-      id:uid(),title,
-      courseId:document.querySelector('.course-sel')?.value||'',
-      dueDate:document.getElementById('f-due').value,
-      status:'pending',priority:S.priority
+      id: uid(), title,
+      courseId: document.querySelector('.course-sel')?.value || '',
+      dueDate:  document.getElementById('f-due').value,
+      status:   'pending',
+      priority: S.priority,
     });
-    S.showForm=false;S.form={};saveState();render();
+    S.showForm = false; S.form = {};
+    storageSave(); render();
   });
 
-  // Save quiz
-  const sq=document.getElementById('save-quiz');
-  if(sq)sq.addEventListener('click',()=>{
-    const title=document.getElementById('f-title').value.trim();
-    if(!title)return;
+  // ── Save quiz ──
+  const saveQuiz = document.getElementById('save-quiz');
+  if (saveQuiz) saveQuiz.addEventListener('click', () => {
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) return;
     S.quizzes.push({
-      id:uid(),title,
-      courseId:document.querySelector('.course-sel')?.value||'',
-      date:document.getElementById('f-date').value,
-      score:null,
-      totalPoints:Number(document.getElementById('f-pts').value)||100
+      id: uid(), title,
+      courseId:    document.querySelector('.course-sel')?.value || '',
+      date:        document.getElementById('f-date').value,
+      score:       null,
+      totalPoints: Number(document.getElementById('f-pts').value) || 100,
     });
-    S.showForm=false;S.form={};saveState();render();
+    S.showForm = false; S.form = {};
+    storageSave(); render();
   });
 
-  // Course grade change
-  document.querySelectorAll('.course-grade-sel').forEach(sel=>sel.addEventListener('change',()=>{
-    const c=S.courses.find(x=>x.id===sel.dataset.id);
-    if(c){c.grade=sel.value;saveState();render();}
+  // ── Course grade change ──
+  document.querySelectorAll('.grade-sel').forEach(sel => sel.addEventListener('change', () => {
+    const c = S.courses.find(x => x.id === sel.dataset.id);
+    if (c) { c.grade = sel.value; storageSave(); render(); }
   }));
 
-  // Deletes
-  document.querySelectorAll('.del-course').forEach(b=>b.addEventListener('click',()=>{
-    S.courses=S.courses.filter(c=>c.id!==b.dataset.id);saveState();render();
+  // ── Deletes ──
+  document.querySelectorAll('.del-course').forEach(b => b.addEventListener('click', () => {
+    S.courses = S.courses.filter(c => c.id !== b.dataset.id);
+    storageSave(); render();
   }));
-  document.querySelectorAll('.del-assign').forEach(b=>b.addEventListener('click',()=>{
-    S.assignments=S.assignments.filter(a=>a.id!==b.dataset.id);saveState();render();
+  document.querySelectorAll('.del-assign').forEach(b => b.addEventListener('click', () => {
+    S.assignments = S.assignments.filter(a => a.id !== b.dataset.id);
+    storageSave(); render();
   }));
-  document.querySelectorAll('.del-quiz').forEach(b=>b.addEventListener('click',()=>{
-    S.quizzes=S.quizzes.filter(q=>q.id!==b.dataset.id);saveState();render();
+  document.querySelectorAll('.del-quiz').forEach(b => b.addEventListener('click', () => {
+    S.quizzes = S.quizzes.filter(q => q.id !== b.dataset.id);
+    storageSave(); render();
   }));
 
-  // Toggle assignment status
-  document.querySelectorAll('.toggle-status').forEach(b=>b.addEventListener('click',()=>{
-    const a=S.assignments.find(x=>x.id===b.dataset.id);
-    if(a){
-      a.status=a.status==='pending'?'in-progress':a.status==='in-progress'?'completed':'pending';
-      saveState();render();
+  // ── Toggle assignment status ──
+  document.querySelectorAll('.toggle-status').forEach(b => b.addEventListener('click', () => {
+    const a = S.assignments.find(x => x.id === b.dataset.id);
+    if (a) {
+      a.status = a.status==='pending' ? 'in-progress' : a.status==='in-progress' ? 'completed' : 'pending';
+      storageSave(); render();
     }
   }));
 
-  // Quiz score
-  document.querySelectorAll('.quiz-score').forEach(inp=>inp.addEventListener('change',()=>{
-    const q=S.quizzes.find(x=>x.id===inp.dataset.id);
-    if(q){q.score=inp.value===''?null:Number(inp.value);saveState();render();}
+  // ── Quiz score ──
+  document.querySelectorAll('.quiz-score').forEach(inp => inp.addEventListener('change', () => {
+    const q = S.quizzes.find(x => x.id === inp.dataset.id);
+    if (q) { q.score = inp.value === '' ? null : Number(inp.value); storageSave(); render(); }
   }));
 
-  // GPA sliders — live update without full re-render
-  const sg=document.getElementById('slider-gpa');
-  const sc2=document.getElementById('slider-cr');
-  if(sg)sg.addEventListener('input',()=>{
-    S.targetGpa=Number(sg.value);
-    document.getElementById('val-gpa').textContent=Number(sg.value).toFixed(1);
-    updScenario();
+  // ── GPA sliders ──
+  const sg  = document.getElementById('slider-gpa');
+  const sc2 = document.getElementById('slider-cr');
+  if (sg) sg.addEventListener('input', () => {
+    S.targetGpa = Number(sg.value);
+    document.getElementById('val-gpa').textContent = Number(sg.value).toFixed(1);
+    updateScenario();
   });
-  if(sc2)sc2.addEventListener('input',()=>{
-    S.remainCr=Number(sc2.value);
-    document.getElementById('val-cr').textContent=sc2.value;
-    updScenario();
+  if (sc2) sc2.addEventListener('input', () => {
+    S.remainCr = Number(sc2.value);
+    document.getElementById('val-cr').textContent = sc2.value;
+    updateScenario();
   });
 }
 
+// ── Boot ──────────────────────────────────────────────────────────────────────
 render();
 </script>
 </body>
