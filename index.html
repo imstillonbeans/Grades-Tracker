@@ -241,7 +241,7 @@ h2 { font-size: 16px; font-weight: 500; }
 const GP = {"A+":4,"A":4,"A-":3.7,"B+":3.3,"B":3,"B-":2.7,"C+":2.3,"C":2,"C-":1.7,"D+":1.3,"D":1,"D-":.7,"F":0};
 const GOPTS = ["A+","A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
 const COLORS = ["#1a6b5a","#1e5f8f","#8f3a1e","#6b1a6b","#1e6b8f","#6b5c1a","#2d7a3a","#8f1e3a"];
-const STORAGE_KEY = 'schooltracker_v1';
+const STORAGE_KEY = 'schooltracker_v2';
 
 // ── Storage ───────────────────────────────────────────────────────────────────
 function storageGet() {
@@ -266,21 +266,346 @@ function storageSave() {
 // ── Initial state ─────────────────────────────────────────────────────────────
 const SAMPLE = {
   courses: [
-    {id:'c1', name:'English 201',   credits:3, color:'#1e5f8f', professor:'Prof. Martin', grade:'A-'},
-    {id:'c2', name:'Calculus II',   credits:4, color:'#1a6b5a', professor:'Prof. Chen',   grade:'B+'},
-    {id:'c3', name:'Chemistry 101', credits:4, color:'#8f3a1e', professor:'Prof. Okafor', grade:'A'},
-    {id:'c4', name:'History 105',   credits:3, color:'#6b1a6b', professor:'',             grade:'B'},
-  ],
+    {
+        "id": "macro",
+        "name": "Macroeconomics",
+        "credits": 3,
+        "color": "#1a6b5a",
+        "professor": "",
+        "grade": "A"
+    },
+    {
+        "id": "bus",
+        "name": "Intro to Bus",
+        "credits": 3,
+        "color": "#1e5f8f",
+        "professor": "",
+        "grade": "A"
+    },
+    {
+        "id": "stats",
+        "name": "Bus Statistics",
+        "credits": 3,
+        "color": "#8f3a1e",
+        "professor": "",
+        "grade": "A"
+    },
+    {
+        "id": "eng",
+        "name": "Eng Studio",
+        "credits": 3,
+        "color": "#6b1a6b",
+        "professor": "",
+        "grade": "A"
+    },
+    {
+        "id": "engcomp",
+        "name": "English Comp I",
+        "credits": 3,
+        "color": "#6b5c1a",
+        "professor": "Craig",
+        "grade": "A"
+    }
+],
   assignments: [
-    {id:'a1', title:'Research Paper Draft',   courseId:'c1', dueDate:'2026-04-10', status:'in-progress', priority:'high'},
-    {id:'a2', title:'Problem Set 5',          courseId:'c2', dueDate:'2026-04-12', status:'pending',     priority:'medium'},
-    {id:'a3', title:'Lab Report: Titration',  courseId:'c3', dueDate:'2026-04-08', status:'completed',   priority:'low'},
-  ],
-  quizzes: [
-    {id:'q1', title:'Midterm Review Quiz', courseId:'c2', date:'2026-03-28', score:88,   totalPoints:100},
-    {id:'q2', title:'Vocab Quiz 4',        courseId:'c1', date:'2026-04-02', score:null, totalPoints:50},
-    {id:'q3', title:'Lab Practical',       courseId:'c3', date:'2026-03-20', score:45,   totalPoints:50},
-  ]
+    {
+        "id": "a_sec3lab",
+        "title": "Section-3 Lab",
+        "courseId": "bus",
+        "dueDate": "2026-03-30",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_cs_biz_apr10",
+        "title": "Case Study: Biz \u2013 How Has the Firm Changed?",
+        "courseId": "macro",
+        "dueDate": "2026-04-10",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_cs_np_apr10",
+        "title": "Case Study: NP \u2013 How Has the Firm Changed?",
+        "courseId": "macro",
+        "dueDate": "2026-04-10",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_macro_a4",
+        "title": "Assignment #4 \u2013 Measuring Health of Economy",
+        "courseId": "macro",
+        "dueDate": "2026-04-12",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_bias_quiz",
+        "title": "Recognizing Bias Quiz",
+        "courseId": "eng",
+        "dueDate": "2026-04-12",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_itm5",
+        "title": "ITM #5 \u2013 Government Spending (photo post)",
+        "courseId": "macro",
+        "dueDate": "2026-04-13",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_cs_biz_apr17",
+        "title": "Case Study: Biz \u2013 Ethics & Role of Government",
+        "courseId": "macro",
+        "dueDate": "2026-04-17",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_cs_np_apr17",
+        "title": "Case Study: NP \u2013 Ethics & Role of Government",
+        "courseId": "macro",
+        "dueDate": "2026-04-17",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_macro_a6",
+        "title": "Assignment #6 \u2013 Creating Case Study Quiz Qs",
+        "courseId": "macro",
+        "dueDate": "2026-04-19",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_sec4lab",
+        "title": "Section-4 Lab",
+        "courseId": "bus",
+        "dueDate": "2026-04-20",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_macro_a5",
+        "title": "Assignment #5 \u2013 Business Cycle & Policy Sol.",
+        "courseId": "macro",
+        "dueDate": "2026-04-26",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_bus_ch10q",
+        "title": "Chapter 10 Quiz",
+        "courseId": "bus",
+        "dueDate": "2026-04-27",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_wd4",
+        "title": "Worth Discussing #4 \u2013 If I Could Wave a Wand",
+        "courseId": "macro",
+        "dueDate": "2026-04-29",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ce4",
+        "title": "Current Event #4 \u2013 Money, Banking & Mon. Policy",
+        "courseId": "macro",
+        "dueDate": "2026-04-29",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_macro_a7",
+        "title": "Assignment #7 \u2013 Final Analysis Paper",
+        "courseId": "macro",
+        "dueDate": "2026-05-01",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_macro_q19",
+        "title": "Quiz #19 \u2013 Macro Policy Around the World",
+        "courseId": "macro",
+        "dueDate": "2026-05-04",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_stock",
+        "title": "Stock Project",
+        "courseId": "bus",
+        "dueDate": "2026-05-04",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_bus_ch14q",
+        "title": "Chapter 14 Quiz",
+        "courseId": "bus",
+        "dueDate": "2026-05-04",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_bus_ch15q",
+        "title": "Chapter 15 Quiz",
+        "courseId": "bus",
+        "dueDate": "2026-05-11",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_sec5exam",
+        "title": "Section 5 Exam",
+        "courseId": "bus",
+        "dueDate": "2026-05-11",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_sec5lab",
+        "title": "Section-5 Lab",
+        "courseId": "bus",
+        "dueDate": "2026-05-11",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch8hw",
+        "title": "Ch. 8 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch9hw",
+        "title": "Ch. 9 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch10hw",
+        "title": "Ch. 10 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch11hw",
+        "title": "Ch. 11 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch12hw",
+        "title": "Ch. 12 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch13hw",
+        "title": "Ch. 13 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch14hw",
+        "title": "Ch. 14 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_ch15hw",
+        "title": "Ch. 15 Homework",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_sir",
+        "title": "S.I.R. \u2013 Statistical Inv. Report",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_spread",
+        "title": "Spreadsheet Challenge",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_icq2",
+        "title": "In-Class Quiz #2",
+        "courseId": "macro",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_icq3",
+        "title": "In-Class Quiz #3",
+        "courseId": "macro",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_icq4",
+        "title": "In-Class Quiz #4",
+        "courseId": "macro",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_icq5",
+        "title": "In-Class Quiz #5",
+        "courseId": "macro",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "medium"
+    },
+    {
+        "id": "a_exam4",
+        "title": "Exam 4 (in-person)",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "high"
+    },
+    {
+        "id": "a_exam5",
+        "title": "Exam 5 (in-person)",
+        "courseId": "stats",
+        "dueDate": "",
+        "status": "pending",
+        "priority": "high"
+    }
+],
+  quizzes: []
 };
 
 // Load saved data — if nothing saved, use sample data and save it immediately
