@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ClipboardList, BookOpen, GraduationCap, TrendingUp } from "lucide-react";
 import { AssignmentsTab, Assignment } from "./components/assignments-tab";
 import { QuizzesTab, Quiz } from "./components/quizzes-tab";
 import { GradesTab, CourseGrade } from "./components/grades-tab";
 import { GpaTab } from "./components/gpa-tab";
+import { projectId, publicAnonKey } from "/utils/supabase/info";
+
+const API = `https://${projectId}.supabase.co/functions/v1/make-server-9e4d84c0`;
+const headers = { "Content-Type": "application/json", Authorization: `Bearer ${publicAnonKey}` };
 
 const tabs = [
   { id: "assignments", label: "Assignments", icon: <ClipboardList className="w-4 h-4" /> },
@@ -14,29 +18,52 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]["id"];
 
-const sampleAssignments: Assignment[] = [
-  { id: "1", title: "Research Paper Draft", course: "English 201", dueDate: "2026-04-10", status: "in-progress", priority: "high" },
-  { id: "2", title: "Problem Set 5", course: "Calculus II", dueDate: "2026-04-12", status: "pending", priority: "medium" },
-  { id: "3", title: "Lab Report: Titration", course: "Chemistry 101", dueDate: "2026-04-08", status: "completed", priority: "low" },
-];
-
-const sampleQuizzes: Quiz[] = [
-  { id: "1", title: "Midterm Review Quiz", course: "Calculus II", date: "2026-03-28", score: 88, totalPoints: 100 },
-  { id: "2", title: "Vocab Quiz 4", course: "English 201", date: "2026-04-02", score: null, totalPoints: 50 },
-];
-
-const sampleGrades: CourseGrade[] = [
-  { id: "1", course: "Calculus II", credits: 4, grade: "B+" },
-  { id: "2", course: "English 201", credits: 3, grade: "A-" },
-  { id: "3", course: "Chemistry 101", credits: 4, grade: "A" },
-  { id: "4", course: "History 105", credits: 3, grade: "B" },
-];
-
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("assignments");
-  const [assignments, setAssignments] = useState<Assignment[]>(sampleAssignments);
-  const [quizzes, setQuizzes] = useState<Quiz[]>(sampleQuizzes);
-  const [grades, setGrades] = useState<CourseGrade[]>(sampleGrades);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [grades, setGrades] = useState<CourseGrade[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load data on mount
+  useEffect(() => {
+    fetch(`${API}/data`, { headers })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.assignments?.length) setAssignments(d.assignments);
+        if (d.quizzes?.length) setQuizzes(d.quizzes);
+        if (d.grades?.length) setGrades(d.grades);
+        setLoaded(true);
+      })
+      .catch((e) => {
+        console.log("Failed to load data:", e);
+        setLoaded(true);
+      });
+  }, []);
+
+  // Auto-save with debounce
+  const save = useCallback(() => {
+    if (!loaded) return;
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(() => {
+      fetch(`${API}/data`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ assignments, quizzes, grades }),
+      }).catch((e) => console.log("Failed to save:", e));
+    }, 500);
+  }, [assignments, quizzes, grades, loaded]);
+
+  useEffect(() => { save(); }, [save]);
+
+  if (!loaded) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
